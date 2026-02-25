@@ -6,9 +6,6 @@ const Home = () => (
     <main className="pt-24 pb-20 px-6 max-w-5xl mx-auto">
         <header className="mb-12 text-center">
             <h1 className="text-5xl font-black mb-4 tracking-tight">The Complete Guide</h1>
-            {/* <p className="text-slate-500 dark:text-slate-400 text-lg">
-                No shortcuts. Here is every line of code you need.
-            </p> */}
         </header>
 
 
@@ -22,8 +19,8 @@ const Home = () => (
 
         <div className="p-8 rounded-3xl bg-blue-600 text-white shadow-xl shadow-blue-500/20">
             <h4 className="text-xl font-bold mb-2">Ready to Go!</h4>
-            <p className="opacity-90 leading-relaxed">
-                Your theme system is now fully functional. Tailwind detects the <code>.dark</code> class on your <code>html</code> element and automatically applies the correct styles.
+            <p className="opacity-90 leading-relaxed font-thin">
+                Your theme system is now fully functional. Tailwind detects the <code className='font-black'>.dark</code> class on your <code className='font-black'>html</code> element and automatically applies the correct styles.
             </p>
         </div>
     </main>
