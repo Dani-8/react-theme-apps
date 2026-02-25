@@ -42,7 +42,7 @@ Note: v4 uses @import "tailwindcss", but we need the above for v3`,
         number: 3,
         title: 'The Provider Setup',
         description: 'This is your ThemeContext.jsx. It manages the state and updates the html tag.',
-        codeTitle: 'src/components/ThemeContext.jsx',
+        codeTitle: 'src/components/ThemeProvider.jsx',
         code: `
 import React, { createContext, useContext, useState, useEffect } from "react";
 
