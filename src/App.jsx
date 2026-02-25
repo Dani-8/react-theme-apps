@@ -19,9 +19,11 @@ function App() {
         <Route path='/' element={
           <div className='min-h-screen bg-slate-50 p-6 md:p-12'>
             <div className='max-w-4xl mx-auto'>
+              
               <Header />
               <h3 className="text-lg font-bold text-slate-700 mb-6">Pick an app:</h3>
               <AppCardsList />
+              
             </div>
           </div>
         }/>
