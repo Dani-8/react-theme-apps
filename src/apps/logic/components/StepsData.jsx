@@ -16,7 +16,7 @@ npx tailwindcss init -p`,
         description: 'Open tailwind.config.js. Add the darkMode line and the content paths exactly like this:',
         codeTitle: 'tailwind.config.js',
         code: `/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
 darkMode: 'class',
 content: [
     "./index.html",
