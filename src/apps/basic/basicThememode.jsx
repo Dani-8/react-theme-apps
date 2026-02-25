@@ -11,7 +11,6 @@ export const ThemeContext = createContext()
 
 
 export default function BasicThemeApp() {
-
     const [theme, setTheme] = useState("light")
 
     const toggleTheme = () => {
