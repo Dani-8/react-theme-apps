@@ -13,7 +13,7 @@ npx tailwindcss init -p`,
     {
         number: 2,
         title: 'The Configuration',
-        description: 'Open **tailwind.config.js**. Add the **darkMode** line and the **content** paths exactly like this:',
+        description: 'Open tailwind.config.js. Add the darkMode line and the content paths exactly like this:',
         codeTitle: 'tailwind.config.js',
         code: `/** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -41,34 +41,60 @@ Note: v4 uses @import "tailwindcss", but we need the above for v3`,
     {
         number: 3,
         title: 'The Provider Setup',
-        description: 'This is your **ThemeContext.jsx**. It manages the state and updates the **html** tag.',
-        codeTitle: 'src/context/ThemeContext.jsx',
-        code: `import { createContext, useContext, useState, useEffect } from 'react';
+        description: 'This is your ThemeContext.jsx. It manages the state and updates the html tag.',
+        codeTitle: 'src/components/ThemeContext.jsx',
+        code: `
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-const ThemeContext = createContext();
+const ThemeContext = createContext()
+
 
 export function ThemeProvider({ children }) {
-const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState(null)
 
-useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-}, [theme]);
 
-const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : 'light'));
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme") || "theme"
+        setTheme(savedTheme)
 
-return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-    {children}
-    </ThemeContext.Provider>
-);
-}`,
+        if (savedTheme === "dark") {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [])
+
+
+    const toggleTheme = () => {
+        const newTheme = theme === "light" ? "dark" : "light"
+
+        setTheme(newTheme)
+
+        localStorage.setItem('theme', newTheme)
+
+        document.documentElement.classList.toggle('dark', newTheme === 'dark')
+    }
+
+
+
+    if (!theme) return null
+
+
+    return (
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            {children}
+        </ThemeContext.Provider>
+    );
+}
+
+export const useTheme = () => useContext(ThemeContext);
+
+        `,
     },
     {
         number: 4,
         title: 'Final Application Structure',
-        description: 'Wrap your **App.jsx** and use the **dark:** utility classes in your components.',
+        description: `Wrap your App.jsx with the ThemeProvider and use the dark: utility classes in your components.`,
         codeTitle: 'src/App.jsx',
         code: `export default function App() {
 return (
