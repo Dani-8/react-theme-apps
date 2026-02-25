@@ -23,7 +23,7 @@ const Home = () => (
         <div className="p-8 rounded-3xl bg-blue-600 text-white shadow-xl shadow-blue-500/20">
             <h4 className="text-xl font-bold mb-2">Ready to Go!</h4>
             <p className="opacity-90 leading-relaxed">
-                By following these steps, you now have a professional theme switcher. Tailwind will now look for the <code>.dark</code> class on your <code>html</code> element to decide which styles to show.
+                Your theme system is now fully functional. Tailwind detects the <code>.dark</code> class on your <code>html</code> element and automatically applies the correct styles.
             </p>
         </div>
     </main>

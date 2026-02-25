@@ -18,7 +18,6 @@ export default function BasicThemeApp() {
         setTheme((theme) => theme === "light" ? "dark" : "light")
     }
 
-
     return (
         <ThemeContext.Provider value={{theme, toggleTheme}}>
 
