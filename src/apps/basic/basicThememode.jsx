@@ -31,7 +31,6 @@ export default function BasicThemeApp() {
                         <ArrowLeft size={20} /> Back to Portal
                     </Link>
 
-
                     <div className="flex justify-center mt-50">
                         <Btn />
                     </div>
