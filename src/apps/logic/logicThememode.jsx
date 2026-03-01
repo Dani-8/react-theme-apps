@@ -1,7 +1,3 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-
-
 import {ThemeProvider} from "./components/ThemeProvider"
 import Navbar from "./components/Navbar"
 import Home from "./components/Home"

@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { ThemeProvider, useTheme } from '../components/ThemeProvider'
+import { useContext } from "react"
+import { ThemeProvider, ThemeContext } from '../components/ThemeProvider'
 
 const Navbar = () => {
+    const useTheme = () => useContext(ThemeContext)
+
     const { theme, toggleTheme } = useTheme()
 
     return (
