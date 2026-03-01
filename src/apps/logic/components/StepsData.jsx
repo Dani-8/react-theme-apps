@@ -2,108 +2,95 @@ const StepsData = [
     {
         number: 1,
         title: 'Installation',
-        description: 'Run these commands in your terminal. We use Tailwind v3 because it supports explicit class-based toggling.',
+        description: 'In your terminal, run this inside your Vite project folder.',
         codeTitle: 'Terminal',
-        code: `# 1. Install Tailwind and its friends
-npm install -D tailwindcss@3 postcss autoprefixer
+        code: `# Install Tailwind v4 and the Vite plugin
 
-# 2. Generate the config files
-npx tailwindcss init -p`,
+npm install tailwindcss @tailwindcss/vite`,
     },
     {
         number: 2,
-        title: 'The Configuration',
-        description: 'Open tailwind.config.js. Add the darkMode line and the content paths exactly like this:',
-        codeTitle: 'tailwind.config.js',
-        code: `/** @type {import('tailwindcss').Config} */
-export default {
-darkMode: 'class',
-content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-],
-theme: { extend: {} },
-plugins: [],
-}`,
-    },
-    {
-        number: 3,
-        title: 'CSS Directives (index.css)',
-        description:
-            "In your src/index.css, add the Tailwind v3 directives. Note that in v4, you'd use a single @import, but v3 requires these three lines.",
+        title: 'CSS Connection',
+        description: `Add this to your src/index.css. V4 does not need a separate config file for dark mode.`,
         codeTitle: 'src/index.css',
-        code: `@tailwind base;
-@tailwind components;
-@tailwind utilities;
+        code: `@import "tailwindcss";
 
-Note: v4 uses @import "tailwindcss", but we need the above for v3`,
+/* V4 detects class="dark" on <html> automatically */`,
     },
     {
         number: 3,
-        title: 'The Provider Setup',
-        description: 'This is your ThemeContext.jsx. It manages the state and updates the html tag.',
-        codeTitle: 'src/components/ThemeProvider.jsx',
-        code: `
-import React, { createContext, useContext, useState, useEffect } from "react";
+        title: 'Vite Plugin',
+        description: 'Update your vite.config.js to use the Tailwind plugin.',
+        codeTitle: 'vite.config.js',
+        code: `import react from '@vitejs/plugin-react' 
+import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
 
-const ThemeContext = createContext()
-
-
-export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState(null)
-
-
-    useEffect(() => {
-        const savedTheme = localStorage.getItem("theme") || "theme"
-        setTheme(savedTheme)
-
-        if (savedTheme === "dark") {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, [])
-
-
-    const toggleTheme = () => {
-        const newTheme = theme === "light" ? "dark" : "light"
-
-        setTheme(newTheme)
-
-        localStorage.setItem('theme', newTheme)
-
-        document.documentElement.classList.toggle('dark', newTheme === 'dark')
-    }
-
-
-
-    if (!theme) return null
-
-
-    return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            {children}
-        </ThemeContext.Provider>
-    );
-}
-
-export const useTheme = () => useContext(ThemeContext);
-`,
+export default defineConfig({
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
+})`,
     },
     {
         number: 4,
-        title: 'Final Application Structure',
-        description: `Wrap your App.jsx with the ThemeProvider and use the dark: utility classes in your components.`,
-        codeTitle: 'src/App.jsx',
-        code: `export default function App() {
-return (
-    <ThemeProvider>
-    <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
-        <Navbar />
-        <h1 className="text-black dark:text-white font-bold">Success!</h1>
+        title: 'The Context Logic',
+        description: 'This is the full ThemeContext.jsx file. It handles the manual toggle logic.',
+        codeTitle: 'src/context/ThemeContext.jsx',
+        code: `import { createContext, useContext, useState, useEffect } from 'react';
+
+const ThemeContext = createContext();
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+       {children}
+    </ThemeContext.Provider>
+  );
+}`,
+    },
+    {
+        number: 5,
+        title: 'Applying Styles',
+        description: `Wrap your app and use dark: classes. They only trigger when the HTML tag has the dark class.`,
+        codeTitle: 'src/components/Card.jsx',
+        code: `export default function Card() {
+  return (
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 transition-colors">
+      <h2 className="text-black dark:text-white font-bold">I react to the theme!</h2>
     </div>
+  );
+}`,
+    },
+    {
+        number: 6,
+        title: 'The Main Entry',
+        description: `Finally, wrap your entire application in the ThemeProvider inside App.jsx.`,
+        codeTitle: 'src/App.jsx',
+        code: `import { ThemeProvider } from './context/ThemeContext';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
+        <Navbar />
+        <Home />
+      </div>
     </ThemeProvider>
-);
+  );
 }`,
     },
 ];
